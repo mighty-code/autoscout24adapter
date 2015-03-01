@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: View
+
+# Model Form Field configuration
+form: $/mightycode/autoscout24adapter/models/view/fields.yaml
+
+# Model Class name
+modelClass: MightyCode\Autoscout24Adapter\Models\View
+
+# Default redirect location
+defaultRedirect: mightycode/autoscout24adapter/views
+
+# Create page
+create:
+    title: Create View
+    redirect: mightycode/autoscout24adapter/views/update/:id
+    redirectClose: mightycode/autoscout24adapter/views
+
+# Update page
+update:
+    title: Edit View
+    redirect: mightycode/autoscout24adapter/views
+    redirectClose: mightycode/autoscout24adapter/views
+
+# Preview page
+preview:
+    title: Preview View

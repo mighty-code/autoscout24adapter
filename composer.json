@@ -1,0 +1,16 @@
+{
+  "name": "mightycode/autoscout24adapter",
+  "description": "List your autoscout24.ch ads",
+  "homepage": "http://mighty-code.com",
+  "keywords": ["october", "cms", "rainlab", "google", "analytics"],
+  "authors": [
+    {
+      "name": "Oliver Kaufmann",
+      "email": "okaufmann91@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "sunra/php-simple-html-dom-parser": "v1.5.0"
+  }
+}
