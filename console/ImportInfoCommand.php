@@ -1,7 +1,10 @@
 <?php namespace MightyCode\Autoscout24Adapter\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use MightyCode\Autoscout24Adapter\Models\CarInfo;
+use MightyCode\Autoscout24Adapter\Models\Settings;
+use October\Rain\Exception\ApplicationException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Sunra\PhpSimple\HtmlDomParser;
@@ -35,9 +38,13 @@ class ImportInfoCommand extends Command
 
     protected function getUrl()
     {
-        //TODO Read client ID from settings
-        //test value: 61647
-        return $this->baseUrl . sprintf($this->adUrl,61647,61647);
+        $clientID = Settings::instance()->client_id;
+
+        if(empty($clientID)){
+            throw new ApplicationException("Client ID not set in settings!");
+        }
+
+        return $this->baseUrl . sprintf($this->adUrl,$clientID,$clientID);
     }
 
     /**
@@ -50,49 +57,52 @@ class ImportInfoCommand extends Command
 
         $this->output->writeln('Clear Table!');
 
-        CarInfo::truncate();
+        DB::transaction(function() {
 
-        $dom = HtmlDomParser::file_get_html($this->url);
+            CarInfo::truncate();
 
-        $divs = $dom->find('.list [class*=row]');
+            $dom = HtmlDomParser::file_get_html($this->url);
 
-        //echo count($divs);
-        foreach ($divs as $div) {
-            $carInfo = new CarInfo();
+            $divs = $dom->find('.list [class*=row]');
 
-            $imageDiv = $div->find('.imgCol', 0);
-            $carImgUrl = $imageDiv->find('.galExtImg', 0)->attr["src"];
+            //echo count($divs);
+            foreach ($divs as $div) {
+                $carInfo = new CarInfo();
 
-            //fix image size
-            $carImgUrl = str_replace("95x71/0", "300x2048/3", $carImgUrl);
+                $imageDiv = $div->find('.imgCol', 0);
+                $carImgUrl = $imageDiv->find('.galExtImg', 0)->attr["src"];
 
-            $carInfo->imageUrl = $carImgUrl;
+                //fix image size
+                $carImgUrl = str_replace("95x71/0", "300x2048/3", $carImgUrl);
 
-            $titleDiv = $div->find('.custListExtMakeModel', 0);
-            $carInfo->title = $titleDiv->find('a', 0)->plaintext;
+                $carInfo->imageUrl = $carImgUrl;
 
-            $detailUrl = $titleDiv->find('a', 0)->attr["href"];
-            $carInfo->detailUrl = $this->baseUrl . $detailUrl;
+                $titleDiv = $div->find('.custListExtMakeModel', 0);
+                $carInfo->title = $titleDiv->find('a', 0)->plaintext;
 
-            $descDiv = $div->find('.custListExtDescr', 0);
-            $carInfo->description = $descDiv->plaintext;
+                $detailUrl = $titleDiv->find('a', 0)->attr["href"];
+                $carInfo->detailUrl = $this->baseUrl . $detailUrl;
 
-            $colorDiv = $div->find('.custListExtBodyType', 0);
-            $carInfo->color = html_entity_decode($colorDiv->plaintext);
+                $descDiv = $div->find('.custListExtDescr', 0);
+                $carInfo->description = $descDiv->plaintext;
 
-            $yearDiv = $div->find('.custListExtYearCol', 0);
-            $carInfo->age_group = $yearDiv->plaintext;
+                $colorDiv = $div->find('.custListExtBodyType', 0);
+                $carInfo->color = html_entity_decode($colorDiv->plaintext);
 
-            $mileageDiv = $div->find('.custListExtMileageCol', 0);
-            $carInfo->mileage = $mileageDiv->plaintext;
+                $yearDiv = $div->find('.custListExtYearCol', 0);
+                $carInfo->age_group = $yearDiv->plaintext;
 
-            $priceDiv = $div->find('.custListExtPriceCol', 0);
-            $carInfo->price = $priceDiv->plaintext;
+                $mileageDiv = $div->find('.custListExtMileageCol', 0);
+                $carInfo->mileage = $mileageDiv->plaintext;
 
-            $carInfo->save();
+                $priceDiv = $div->find('.custListExtPriceCol', 0);
+                $carInfo->price = $priceDiv->plaintext;
 
-            $this->output->writeln($carInfo->title . ' imported...');
-        }
+                $carInfo->save();
+
+                $this->output->writeln($carInfo->title . ' imported...');
+            }
+        });
     }
 
     /**
@@ -101,9 +111,7 @@ class ImportInfoCommand extends Command
      */
     protected function getArguments()
     {
-        return [
-            //['example', InputArgument::REQUIRED, 'An example argument.'],
-        ];
+        return [];
     }
 
     /**
@@ -112,9 +120,7 @@ class ImportInfoCommand extends Command
      */
     protected function getOptions()
     {
-        return [
-            //['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
-        ];
+        return [];
     }
 
 }

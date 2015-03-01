@@ -1,3 +1,7 @@
 1.0.1:
     - Initialize plugin.
     - create_car_infos_table.php
+1.0.2: Client ID is now configurable
+1.1:
+    - Added Translation
+    - User tested

@@ -1,6 +1,7 @@
 <?php namespace MightyCode\Autoscout24Adapter\Components;
 
 use Cms\Classes\ComponentBase;
+use Illuminate\Support\Facades\Lang;
 use MightyCode\Autoscout24Adapter\Models\CarInfo;
 
 class View extends ComponentBase
@@ -28,11 +29,6 @@ class View extends ComponentBase
         ];
     }
 
-    public function onRequestDetails()
-    {
-
-    }
-
     public function onRun()
     {
         // This code will be executed when the page or layout is
@@ -42,6 +38,12 @@ class View extends ComponentBase
 
         $this->cars = $this->page['cars'] = $this->listCars();
 
+        $this->page['detailText'] = Lang::get('mightycode.autoscout24adapter::lang.list.details');
+        $this->page['confirmText'] = Lang::get('mightycode.autoscout24adapter::lang.list.confirm');
+        $this->page['mileageText'] = Lang::get('mightycode.autoscout24adapter::lang.list.mileage');
+        $this->page['yearText'] = Lang::get('mightycode.autoscout24adapter::lang.list.year');
+        $this->page['priceText'] = Lang::get('mightycode.autoscout24adapter::lang.list.price');
+        $this->page['colorText'] = Lang::get('mightycode.autoscout24adapter::lang.list.color');
 
         $this->page['var'] = 'value'; // Inject some variable to the page
     }

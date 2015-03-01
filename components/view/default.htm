@@ -1,11 +1,9 @@
 {% set cars = __SELF__.cars %}
 
-<p>This is the default markup for component View</p>
-
 {% for car in cars %}
 
-{% if loop.index % 3 == 0  %}
-<div class="row">
+    {% if loop.index % 3 == 0  %}
+        <div class="row">
     {% endif %}
 
     <div class="col-sm-6 col-md-4">
@@ -19,26 +17,26 @@
 
                 <table class="table table-bordered">
                     <tr>
-                        <th>Mileage</th>
-                        <td>{{car.mileage}}</td>
+                        <th>{{ mileageText }}</th>
+                        <td>{{ car.mileage }}</td>
                     </tr>
                     <tr>
-                        <th>Color</th>
-                        <td>{{car.color}}</td>
+                        <th>{{ colorText }}</th>
+                        <td>{{ car.color }}</td>
                     </tr>
                     <tr>
-                        <th>Year</th>
-                        <td>{{car.age_group}}</td>
+                        <th>{{ yearText }}</th>
+                        <td>{{ car.age_group }}</td>
                     </tr>
                     <tr>
-                        <th>Price</th>
+                        <th>{{ priceText }}</th>
                         <td><b>{{car.price}}</b></td>
                     </tr>
                 </table>
 
                 <p>
                     <button data-detail-url="{{car.detailUrl}}" class="btn btn-primary" data-toggle="modal"
-                            data-target="#myModal" role="button">Details
+                            data-target="#myModal" data-detail-title="{{car.title}}" role="button">{{ detailText }}
                     </button>
                 </p>
             </div>
@@ -46,8 +44,8 @@
     </div>
 
     {% if loop.index % 3 == 0 %}
-</div>
-{% endif %}
+        </div>
+    {% endif %}
 
 {% endfor %}
 
@@ -58,15 +56,14 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">...</h4>
             </div>
             <div class="modal-body">
                 <iframe id="detailFrame" class="embed-responsive-item" style="border:0;width:100%;min-height:900px;"
                         src=""></iframe>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{{ confirmText }}</button>
             </div>
         </div>
     </div>

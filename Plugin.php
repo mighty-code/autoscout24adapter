@@ -1,5 +1,6 @@
 <?php namespace MightyCode\Autoscout24Adapter;
 
+use Illuminate\Support\Facades\Artisan;
 use System\Classes\PluginBase;
 
 /**
@@ -16,11 +17,11 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'Autoscout24 Adapter',
-            'description' => 'Get access of your autoscout24.ch ads',
-            'author'      => 'Oliver Kaufmann <contact@mighty-code.com',
-            'icon'        => 'icon-leaf',
-            'homepage'    => 'http://mighty-code.com'
+            'name' => 'mightycode.autoscout24adapter::lang.plugin.name',
+            'description' => 'mightycode.autoscout24adapter::lang.plugin.description',
+            'author' => 'Oliver Kaufmann <contact@mighty-code.com',
+            'icon' => 'icon-car',
+            'homepage' => 'http://mighty-code.com'
         ];
     }
 
@@ -31,16 +32,30 @@ class Plugin extends PluginBase
         ];
     }
 
-    public function register(){
+    public function register()
+    {
         $this->registerConsoleCommand('autoscout.importads', 'MightyCode\Autoscout24Adapter\Console\ImportInfoCommand');
     }
 
-    public function boot(){
-        //\App::register('\Third\Party\ServiceProvider');
+    public function boot()
+    {
+
     }
 
-    public function registerSchedule($schedule){
-        //TODO scheduled import of ads
+    public function registerSchedule($schedule)
+    {
+        $schedule->command('autoscout:importads')->everyFiveMinutes();
     }
 
-}
+    public function registerSettings()
+    {
+        return [
+            'config' => [
+                'label' => 'mightycode.autoscout24adapter::lang.settings.label',
+                'icon' => 'icon-car',
+                'description' => 'mightycode.autoscout24adapter::lang.settings.description',
+                'class' => 'MightyCode\Autoscout24Adapter\Models\Settings',
+                'order' => 600
+            ]
+        ];
+    }}
