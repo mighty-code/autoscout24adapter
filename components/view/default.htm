@@ -8,7 +8,10 @@
 
     <div class="col-sm-6 col-md-4">
         <div class="thumbnail">
-            <img src="{{car.imageUrl}}" alt="Image {{car.title}}" class="img-responsive img-thumbnail">
+            <img src="{{car.imageUrl}}" style="cursor:pointer;" alt="Image {{car.title}}" class="img-responsive img-thumbnail" data-toggle="modal"
+            data-detail-url="{{car.detailUrl}}" 
+            data-target="#detailModal" 
+            data-detail-title="{{car.title}}">
 
             <div class="caption">
                 <h3>{{car.title}}</h3>
@@ -31,8 +34,11 @@
                 </table>
 
                 <p>
-                    <button data-detail-url="{{car.detailUrl}}" class="btn btn-primary" data-toggle="modal"
-                            data-target="#myModal" data-detail-title="{{car.title}}" role="button">{{ detailText }}
+                    <button class="btn btn-primary"  
+                            data-detail-url="{{car.detailUrl}}" 
+                            data-toggle="modal"
+                            data-target="#detailModal" 
+                            data-detail-title="{{car.title}}" role="button">{{ detailText }}
                     </button>
                 </p>
             </div>
@@ -46,7 +52,7 @@
 {% endfor %}
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

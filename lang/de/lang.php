@@ -11,14 +11,18 @@ return [
             'label' => 'Ihre HCI Listen-URL',
             'commentAbove' => 'Kopieren Sie den URL aus dem Attribut data-embedded-src welcher hier gefunden werden kann: https://www.autoscout24.ch/de/member/hci'
         ]
-    ]
-    ,
-    'list' => [
-        'details' => 'Mehr erfahren',
-        'confirm' => 'OK',
-        'color' => 'Farbe',
-        'mileage' => 'Kilometerstand',
-        'year' => 'Jahrgang',
-        'price' => 'Preis'
-    ]
+    ],
+    'components' => [
+        'listview' => [
+            'name' => 'Auto Listenansicht',
+            'description' => 'Zeigt die Autos als Bootstrap Thumbnails an.',
+            'texts' => [
+                'details' => 'Mehr erfahren',
+                'confirm' => 'OK',
+                'mileage' => 'Kilometerstand',
+                'year' => 'Jahrgang',
+                'price' => 'Preis'
+            ],  
+        ]
+    ],
 ];

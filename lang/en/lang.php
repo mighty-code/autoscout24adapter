@@ -12,12 +12,17 @@ return [
             'commentAbove' => 'Copy the full URL of the data-embedded-src attribute you can find here: https://www.autoscout24.ch/de/member/hci'
         ]
     ],
-    'list' => [
-        'details' => 'Details',
-        'confirm' => 'OK',
-        'color' => 'Color',
-        'mileage' => 'Mileage',
-        'year' => 'Year',
-        'price' => 'Price'
+    'components' => [
+        'listview' => [
+            'name' => 'Car Listview',
+            'description' => 'Shows the Cars(Ads) as Bootstrap\'s thumbnail list',
+            'texts' => [
+                'details' => 'Details',
+                'confirm' => 'OK',
+                'mileage' => 'Mileage',
+                'year' => 'Year',
+                'price' => 'Price'
+            ],
+        ],
     ]
 ];

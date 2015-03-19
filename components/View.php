@@ -10,8 +10,8 @@ class View extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'View Component',
-            'description' => 'No description provided yet...'
+            'name' => Lang::get("mightycode.autoscout24adapter::lang.components.listview.name"),
+            'description' => Lang::get("mightycode.autoscout24adapter::lang.components.listview.description")
         ];
     }
 
@@ -38,12 +38,11 @@ class View extends ComponentBase
 
         $this->cars = $this->page['cars'] = $this->listCars();
 
-        $this->page['detailText'] = Lang::get('mightycode.autoscout24adapter::lang.list.details');
-        $this->page['confirmText'] = Lang::get('mightycode.autoscout24adapter::lang.list.confirm');
-        $this->page['mileageText'] = Lang::get('mightycode.autoscout24adapter::lang.list.mileage');
-        $this->page['yearText'] = Lang::get('mightycode.autoscout24adapter::lang.list.year');
-        $this->page['priceText'] = Lang::get('mightycode.autoscout24adapter::lang.list.price');
-        $this->page['colorText'] = Lang::get('mightycode.autoscout24adapter::lang.list.color');
+        $this->page['detailText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.details');
+        $this->page['confirmText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.confirm');
+        $this->page['mileageText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.mileage');
+        $this->page['yearText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.year');
+        $this->page['priceText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.price');
 
         $this->page['var'] = 'value'; // Inject some variable to the page
     }
