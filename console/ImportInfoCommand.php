@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use League\Flysystem\Exception;
 use MightyCode\Autoscout24Adapter\Models\CarInfo;
 use MightyCode\Autoscout24Adapter\Models\Settings;
 use October\Rain\Exception\ApplicationException;
@@ -22,7 +23,8 @@ class ImportInfoCommand extends Command
     protected $description = 'Import ads from given URL';
 
     protected $baseUrl = "http://www.autoscout24.ch";
-    protected $adUrl = "/HCI/CustomList.aspx?cuid=%s&member=%s&view=extended";
+    //protected $adUrl = "/HCI/CustomList.aspx?cuid=%s&member=%s&view=extended";
+    protected $adUrl = '/de/hci/list?design=177&filter=174';
 
     protected $url;
 
@@ -40,11 +42,11 @@ class ImportInfoCommand extends Command
     {
         $clientID = Settings::instance()->client_id;
 
-        if(empty($clientID)){
+        if (empty($clientID)) {
             throw new ApplicationException("Client ID not set in settings!");
         }
 
-        return $this->baseUrl . sprintf($this->adUrl,$clientID,$clientID);
+        return $this->baseUrl . $this->adUrl; //sprintf($this->adUrl,$clientID,$clientID);
     }
 
     /**
@@ -55,54 +57,77 @@ class ImportInfoCommand extends Command
     {
         $this->output->writeln('Starting Import!');
 
-        $this->output->writeln('Clear Table!');
+        DB::beginTransaction();
 
-        DB::transaction(function() {
+        try {
 
-            CarInfo::truncate();
+            $newCars = array();
+
+            $this->output->writeln('fetch and prepare data for import');
 
             $dom = HtmlDomParser::file_get_html($this->url);
 
-            $divs = $dom->find('.list [class*=row]');
+            $lis = $dom->find('.object-list-item');
 
-            //echo count($divs);
-            foreach ($divs as $div) {
+            $this->output->writeln("found " . count($lis) . " items");
+
+            foreach ($lis as $li) {
                 $carInfo = new CarInfo();
 
-                $imageDiv = $div->find('.imgCol', 0);
-                $carImgUrl = $imageDiv->find('.galExtImg', 0)->attr["src"];
+                $carImgUrl = $li->find('a.object-thumb img', 0)->attr["src"];
 
                 //fix image size
                 $carImgUrl = str_replace("95x71/0", "300x2048/3", $carImgUrl);
 
                 $carInfo->imageUrl = $carImgUrl;
 
-                $titleDiv = $div->find('.custListExtMakeModel', 0);
-                $carInfo->title = $titleDiv->find('a', 0)->plaintext;
+                $titleAnchor = $li->find('h2.title-secondary a', 0);
+                $carInfo->title = $titleAnchor->plaintext;
 
-                $detailUrl = $titleDiv->find('a', 0)->attr["href"];
+                $detailUrl = $titleAnchor->attr["href"];
                 $carInfo->detailUrl = $this->baseUrl . $detailUrl;
 
-                $descDiv = $div->find('.custListExtDescr', 0);
+                $descDiv = $li->find('.container-right p.description', 0);
                 $carInfo->description = $descDiv->plaintext;
 
-                $colorDiv = $div->find('.custListExtBodyType', 0);
-                $carInfo->color = html_entity_decode($colorDiv->plaintext);
-
-                $yearDiv = $div->find('.custListExtYearCol', 0);
+                $yearDiv = $li->find('li.date span.text', 0);
                 $carInfo->age_group = $yearDiv->plaintext;
 
-                $mileageDiv = $div->find('.custListExtMileageCol', 0);
+                $mileageDiv = $li->find('li.mileage span.text', 0);
                 $carInfo->mileage = $mileageDiv->plaintext;
 
-                $priceDiv = $div->find('.custListExtPriceCol', 0);
+                $priceDiv = $li->find('li.price strong', 0);
                 $carInfo->price = $priceDiv->plaintext;
 
-                $carInfo->save();
+                $newCars[] = $carInfo;
 
-                $this->output->writeln($carInfo->title . ' imported...');
+                $this->output->writeln($carInfo->title . ' added to importlist...');
             }
-        });
+
+            if (count($newCars) > 0) {
+
+                $this->output->writeln(sprintf('clear and import %s new ads', count($newCars)));
+
+                //can't use truncate here cause its DDL and not DML like Delete. That means it will cause a implicit commit!
+                //http://stackoverflow.com/a/5972738
+                //CarInfo::truncate();
+
+                //have to use DELETE from {tableName}
+                $carTableName = with(new CarInfo())->getTable();
+                DB::statement('DELETE FROM ' . $carTableName);
+
+                foreach ($newCars as $car) {
+                    $car->save();
+                }
+
+                DB::commit();
+            } else {
+                $this->output->writeln('nothing to import found!');
+            }
+        } catch (\Exception $ex) {
+            $this->output->writeln('error occured and changes has been rollbacked! Message: ' . $ex->getMessage());
+            DB::rollback();
+        }
     }
 
     /**
