@@ -77,7 +77,7 @@ class ImportInfoCommand extends Command
                 $carImgUrl = $li->find('a.object-thumb img', 0)->attr["src"];
 
                 //fix image size
-                $carImgUrl = str_replace("95x71/0", "300x2048/3", $carImgUrl);
+                $carImgUrl = str_replace("90x68/0", "640x2048/3", $carImgUrl);
 
                 $carInfo->imageUrl = $carImgUrl;
 
@@ -85,10 +85,10 @@ class ImportInfoCommand extends Command
                 $carInfo->title = $titleAnchor->plaintext;
 
                 $detailUrl = $titleAnchor->attr["href"];
-                $carInfo->detailUrl = $this->baseUrl . $detailUrl;
+                $carInfo->detailUrl = $this->baseUrl . html_entity_decode($detailUrl);
 
                 $descDiv = $li->find('.container-right p.description', 0);
-                $carInfo->description = $descDiv->plaintext;
+                $carInfo->description = html_entity_decode($descDiv->plaintext);
 
                 $yearDiv = $li->find('li.date span.text', 0);
                 $carInfo->age_group = $yearDiv->plaintext;

@@ -14,7 +14,7 @@ return [
     ]
     ,
     'list' => [
-        'details' => 'Details',
+        'details' => 'Mehr erfahren',
         'confirm' => 'OK',
         'color' => 'Farbe',
         'mileage' => 'Kilometerstand',
