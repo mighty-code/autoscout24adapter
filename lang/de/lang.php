@@ -6,9 +6,9 @@ return [
     ],
     'settings' => [
         'label' => 'Autoscout 24 Adapter',
-        'description' => 'Einstellung der Client ID',
+        'description' => 'Einstellung der HCI Liste',
         'fields' => [
-            'label' => 'Ihre HCI Listen URL',
+            'label' => 'Ihre HCI Listen-URL',
             'commentAbove' => 'Kopieren Sie den URL aus dem Attribut data-embedded-src welcher hier gefunden werden kann: https://www.autoscout24.ch/de/member/hci'
         ]
     ]

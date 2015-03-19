@@ -6,7 +6,7 @@ return [
     ],
     'settings' => [
         'label' => 'Autoscout 24 Adapter',
-        'description' => 'Configure Client ID and set options.',
+        'description' => 'Set HCI list URL.',
         'fields' => [
             'label' => 'Your autoscout24.ch HCI List URL',
             'commentAbove' => 'Copy the full URL of the data-embedded-src attribute you can find here: https://www.autoscout24.ch/de/member/hci'
