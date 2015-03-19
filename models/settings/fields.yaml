@@ -3,10 +3,10 @@
 # ===================================
 
 fields:
-    client_id:
+    hci_list_url:
         span: left
         site: small
         label: mightycode.autoscout24adapter::lang.settings.fields.label
         commentAbove: mightycode.autoscout24adapter::lang.settings.fields.commentAbove
-        type: number
+        type: text
         required: true;

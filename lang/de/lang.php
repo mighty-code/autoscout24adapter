@@ -8,8 +8,8 @@ return [
         'label' => 'Autoscout 24 Adapter',
         'description' => 'Einstellung der Client ID',
         'fields' => [
-            'label' => 'Ihre Client ID',
-            'commentAbove' => 'Sie finden Ihre Client ID in Ihrem autoscout24.ch Account. (Beispiel: 61584)'
+            'label' => 'Ihre HCI Listen URL',
+            'commentAbove' => 'Kopieren Sie den URL aus dem Attribut data-embedded-src welcher hier gefunden werden kann: https://www.autoscout24.ch/de/member/hci'
         ]
     ]
     ,

@@ -23,8 +23,7 @@ class ImportInfoCommand extends Command
     protected $description = 'Import ads from given URL';
 
     protected $baseUrl = "http://www.autoscout24.ch";
-    //protected $adUrl = "/HCI/CustomList.aspx?cuid=%s&member=%s&view=extended";
-    protected $adUrl = '/de/hci/list?design=177&filter=174';
+    protected $adUrl = "";
 
     protected $url;
 
@@ -40,13 +39,13 @@ class ImportInfoCommand extends Command
 
     protected function getUrl()
     {
-        $clientID = Settings::instance()->client_id;
+        $hciListUrl = Settings::instance()->hci_list_url;
 
-        if (empty($clientID)) {
-            throw new ApplicationException("Client ID not set in settings!");
+        if (empty($hciListUrl)) {
+            throw new ApplicationException("HCI List URL was not set in settings!");
         }
 
-        return $this->baseUrl . $this->adUrl; //sprintf($this->adUrl,$clientID,$clientID);
+        return $hciListUrl;
     }
 
     /**
