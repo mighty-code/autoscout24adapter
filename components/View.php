@@ -6,6 +6,9 @@ use MightyCode\Autoscout24Adapter\Models\CarInfo;
 
 class View extends ComponentBase
 {
+    /**
+     * @var array List of Cars will shown in the current view
+     */
     private $cars;
 
     public function componentDetails()

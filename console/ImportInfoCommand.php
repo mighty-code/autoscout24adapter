@@ -22,14 +22,20 @@ class ImportInfoCommand extends Command
      */
     protected $description = 'Import ads from given URL';
 
+    /**
+     * @var string base url for service
+     */
     protected $baseUrl = "http://www.autoscout24.ch";
-    protected $adUrl = "";
 
+    /**
+     * @var string url of personal hcl set in plugin settings
+     */
     protected $url;
 
     /**
      * Create a new command instance.
-     * @return void
+     *
+     * @throws ApplicationException
      */
     public function __construct()
     {
@@ -37,6 +43,12 @@ class ImportInfoCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Get url from settings
+     *
+     * @return mixed
+     * @throws ApplicationException
+     */
     protected function getUrl()
     {
         $hciListUrl = Settings::instance()->hci_list_url;
@@ -50,6 +62,7 @@ class ImportInfoCommand extends Command
 
     /**
      * Execute the console command.
+     *
      * @return void
      */
     public function fire()
@@ -60,7 +73,7 @@ class ImportInfoCommand extends Command
 
         try {
 
-            $newCars = array();
+            $newCars = [];
 
             $this->output->writeln('fetch and prepare data for import');
 
@@ -100,7 +113,7 @@ class ImportInfoCommand extends Command
 
                 $newCars[] = $carInfo;
 
-                $this->output->writeln($carInfo->title . ' added to importlist...');
+                $this->output->writeln($carInfo->title . ' added to import list...');
             }
 
             if (count($newCars) > 0) {
@@ -124,13 +137,14 @@ class ImportInfoCommand extends Command
                 $this->output->writeln('nothing to import found!');
             }
         } catch (\Exception $ex) {
-            $this->output->writeln('error occured and changes has been rollbacked! Message: ' . $ex->getMessage());
+            $this->output->writeln('error occurred and changes has been rollbacked! Message: ' . $ex->getMessage());
             DB::rollback();
         }
     }
 
     /**
      * Get the console command arguments.
+     *
      * @return array
      */
     protected function getArguments()
@@ -140,6 +154,7 @@ class ImportInfoCommand extends Command
 
     /**
      * Get the console command options.
+     *
      * @return array
      */
     protected function getOptions()
@@ -147,6 +162,12 @@ class ImportInfoCommand extends Command
         return [];
     }
 
+    /**
+     * Removes all double spaces in the given string
+     *
+     * @param $input
+     * @return mixed
+     */
     private function removeDoubleSpaces($input)
     {
         return preg_replace('/\s+/', ' ', $input);
