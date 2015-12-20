@@ -6,11 +6,6 @@ use MightyCode\Autoscout24Adapter\Models\CarInfo;
 
 class View extends ComponentBase
 {
-    /**
-     * @var array List of Cars will shown in the current view
-     */
-    private $cars;
-
     public function componentDetails()
     {
         return [
@@ -40,15 +35,13 @@ class View extends ComponentBase
 
         $this->addJs('/plugins/mightycode/autoscout24adapter/assets/js/plugin.js');
 
-        $this->cars = $this->page['cars'] = $this->listCars();
+        $this->page['cars'] = $this->listCars();
 
         $this->page['detailText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.details');
         $this->page['confirmText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.confirm');
         $this->page['mileageText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.mileage');
         $this->page['yearText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.year');
         $this->page['priceText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.price');
-
-        $this->page['var'] = 'value'; // Inject some variable to the page
     }
 
     private function listCars()
