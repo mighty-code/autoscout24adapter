@@ -28,7 +28,7 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'MightyCode\Autoscout24Adapter\Components\View' => 'autoscoutList'
+            \MightyCode\Autoscout24Adapter\Components\View::class => 'autoscoutList'
         ];
     }
 
@@ -39,7 +39,7 @@ class Plugin extends PluginBase
 
     public function boot()
     {
-
+        // ..
     }
 
     public function registerSchedule($schedule)
@@ -54,8 +54,9 @@ class Plugin extends PluginBase
                 'label' => 'mightycode.autoscout24adapter::lang.settings.label',
                 'icon' => 'icon-car',
                 'description' => 'mightycode.autoscout24adapter::lang.settings.description',
-                'class' => 'MightyCode\Autoscout24Adapter\Models\Settings',
+                'class' => \MightyCode\Autoscout24Adapter\Models\Settings::class,
                 'order' => 600
             ]
         ];
-    }}
+    }
+}

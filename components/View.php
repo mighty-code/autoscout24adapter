@@ -6,6 +6,7 @@ use MightyCode\Autoscout24Adapter\Models\CarInfo;
 
 class View extends ComponentBase
 {
+    private $cars;
 
     public function componentDetails()
     {
@@ -47,13 +48,9 @@ class View extends ComponentBase
         $this->page['var'] = 'value'; // Inject some variable to the page
     }
 
-    private
-    function listCars()
+    private function listCars()
     {
         //TODO: Pagination
         return CarInfo::all();
-
     }
-
-
 }

@@ -81,7 +81,7 @@ class ImportInfoCommand extends Command
                 $carInfo->imageUrl = $carImgUrl;
 
                 $titleAnchor = $li->find('h2.title-secondary a', 0);
-                $carInfo->title = $titleAnchor->plaintext;
+                $carInfo->title = $this->removeDoubleSpaces($titleAnchor->plaintext);
 
                 $detailUrl = $titleAnchor->attr["href"];
                 $carInfo->detailUrl = $this->baseUrl . html_entity_decode($detailUrl);
@@ -90,13 +90,13 @@ class ImportInfoCommand extends Command
                 $carInfo->description = html_entity_decode($descDiv->plaintext);
 
                 $yearDiv = $li->find('li.date span.text', 0);
-                $carInfo->age_group = $yearDiv->plaintext;
+                $carInfo->age_group = $this->removeDoubleSpaces($yearDiv->plaintext);
 
                 $mileageDiv = $li->find('li.mileage span.text', 0);
-                $carInfo->mileage = $mileageDiv->plaintext;
+                $carInfo->mileage = $this->removeDoubleSpaces($mileageDiv->plaintext);
 
                 $priceDiv = $li->find('li.price strong', 0);
-                $carInfo->price = $priceDiv->plaintext;
+                $carInfo->price = $this->removeDoubleSpaces($priceDiv->plaintext);
 
                 $newCars[] = $carInfo;
 
@@ -147,4 +147,8 @@ class ImportInfoCommand extends Command
         return [];
     }
 
+    private function removeDoubleSpaces($input)
+    {
+        return preg_replace('/\s+/', ' ', $input);
+    }
 }
