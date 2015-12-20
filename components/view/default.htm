@@ -6,8 +6,8 @@
 
     <div class="col-sm-6 col-md-4">
         <div class="thumbnail">
-            <img src="{{car.imageUrl}}" style="cursor:pointer;" alt="Image {{car.title}}" class="img-responsive img-thumbnail" data-toggle="modal"
-            data-detail-url="{{car.detailUrl}}" 
+            <img src="{{protocol}}{{car.imageUrl}}" style="cursor:pointer;" alt="Image {{car.title}}" class="img-responsive img-thumbnail" data-toggle="modal"
+            data-detail-url="{{protocol}}{{car.detailUrl}}" 
             data-target="#detailModal" 
             data-detail-title="{{car.title}}">
 
@@ -33,7 +33,7 @@
 
                 <p>
                     <button class="btn btn-primary"  
-                            data-detail-url="{{car.detailUrl}}" 
+                            data-detail-url="{{protocol}}{{car.detailUrl}}" 
                             data-toggle="modal"
                             data-target="#detailModal" 
                             data-detail-title="{{car.title}}" role="button">{{ detailText }}

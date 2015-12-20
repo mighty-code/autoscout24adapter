@@ -37,6 +37,8 @@ class View extends ComponentBase
 
         $this->page['cars'] = $this->listCars();
 
+        $this->page['protocol'] = ($_SERVER["HTTPS"] == "on") ? "https://" : "http://";
+
         $this->page['detailText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.details');
         $this->page['confirmText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.confirm');
         $this->page['mileageText'] = Lang::get('mightycode.autoscout24adapter::lang.components.listview.texts.mileage');

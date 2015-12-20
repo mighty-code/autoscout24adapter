@@ -25,7 +25,7 @@ class ImportInfoCommand extends Command
     /**
      * @var string base url for service
      */
-    protected $baseUrl = "http://www.autoscout24.ch";
+    protected $baseUrl = "www.autoscout24.ch";
 
     /**
      * @var string url of personal hcl set in plugin settings
@@ -90,6 +90,8 @@ class ImportInfoCommand extends Command
 
                 //fix image size
                 $carImgUrl = str_replace("90x68/0", "640x2048/3", $carImgUrl);
+                $carImgUrl = str_replace("http://", "", $carImgUrl);
+                $carImgUrl = str_replace("https://", "", $carImgUrl);
 
                 $carInfo->imageUrl = $carImgUrl;
 
