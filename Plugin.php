@@ -21,7 +21,7 @@ class Plugin extends PluginBase
             'description' => 'mightycode.autoscout24adapter::lang.plugin.description',
             'author' => 'Oliver Kaufmann <contact@mighty-code.com',
             'icon' => 'icon-car',
-            'homepage' => 'http://mighty-code.com'
+            'homepage' => 'http://okaufmann.ch'
         ];
     }
 

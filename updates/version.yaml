@@ -8,3 +8,6 @@
 1.0.4:
     - Changes for new HCI of autoscout
     - change_car_infos_table.php
+1.0.5:
+    - Compatibility for PHP 5.6 (now minimum Version)
+    - Some Fixes and Doc improvments
