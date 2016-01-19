@@ -30,7 +30,6 @@
                         <td><b>{{car.price}}</b></td>
                     </tr>
                 </table>
-
                 <p>
                     <button class="btn btn-primary"  
                             data-detail-url="{{protocol}}{{car.detailUrl}}" 
@@ -47,7 +46,19 @@
         </div>
     {% endif %}
 
+    {% if loop.last and loop.index % 3 != 0 %}
+        </div>
+    {% endif %}
+
 {% endfor %}
+
+{% if cars[0] is defined %}
+<div class="row">
+    <div class="col-sm-6 col-md-4">
+        <span class="text-muted"><small>{{cars[0].created_at.format('d.m.Y H.m')}}</small></span>
+    </div>
+</div>
+{% endif %}
 
 <!-- Modal -->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">

@@ -49,6 +49,6 @@ class View extends ComponentBase
     private function listCars()
     {
         //TODO: Pagination
-        return CarInfo::all();
+        return CarInfo::orderBy('created_at')->get();
     }
 }
