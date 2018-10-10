@@ -77,7 +77,7 @@ class ImportInfoCommand extends Command
 
             $this->output->writeln('fetch and prepare data for import');
 
-            $dom = HtmlDomParser::file_get_html($this->url);
+            $dom = HtmlDomParser::file_get_html($this->url, false, null, 0);
 
             $lis = $dom->find('.object-list-item');
 
